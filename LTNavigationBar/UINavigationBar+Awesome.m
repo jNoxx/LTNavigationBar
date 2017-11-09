@@ -30,17 +30,22 @@ static char overlayKey;
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     CGFloat extraAddon = 20;
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if ([keyWindow respondsToSelector:@selector(safeAreaInsets)]) {
-      if (keyWindow.safeAreaInsets.top > 0) {
-        extraAddon += 24;
+    if (@available(iOS 11.0, *)) {
+      if ([keyWindow respondsToSelector:@selector(safeAreaInsets)]) {
+        if (keyWindow.safeAreaInsets.top > 0) {
+          extraAddon += 24;
+        }
+      } else {
+        // Fallback on earlier versions
       }
     }
-    self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraAddon)];
-    self.overlay.userInteractionEnabled = NO;
-    self.overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth;    // Should not set `UIViewAutoresizingFlexibleHeight`
-    [[self.subviews firstObject] insertSubview:self.overlay atIndex:0];
   }
-  self.overlay.backgroundColor = backgroundColor;
+  self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraAddon)];
+  self.overlay.userInteractionEnabled = NO;
+  self.overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth;    // Should not set `UIViewAutoresizingFlexibleHeight`
+  [[self.subviews firstObject] insertSubview:self.overlay atIndex:0];
+}
+self.overlay.backgroundColor = backgroundColor;
 }
 
 - (void)lt_setTranslationY:(CGFloat)translationY
