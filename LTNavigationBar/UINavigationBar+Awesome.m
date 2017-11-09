@@ -32,7 +32,7 @@ static char overlayKey;
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     if ([keyWindow respondsToSelector:@selector(safeAreaInsets)]) {
       if (keyWindow.safeAreaInsets.top > 0) {
-        extraAddon += 20;
+        extraAddon += 24;
       }
     }
     self.overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) + extraAddon)];
